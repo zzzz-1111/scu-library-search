@@ -1,0 +1,5 @@
+{
+  "name": "SCU Library Quick Search",
+  "description": "A sleek desktop-style utility to quickly search books in the Sichuan University Library OPAC system by automatically generating and opening search URLs.",
+  "requestFramePermissions": []
+}
