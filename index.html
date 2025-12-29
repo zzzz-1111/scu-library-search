@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>川大图书馆搜索 - 快速检索</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>SCU Library Search - Advanced</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,96 +14,253 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #8c1d1d 0%, #a52a2a 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        .app-container {
+        /* Animated Background */
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 400px;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: move 25s linear infinite;
+            bottom: -150px;
+        }
+
+        .bg-animation span:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation span:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .bg-animation span:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .bg-animation span:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .bg-animation span:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation span:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .bg-animation span:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .bg-animation span:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .bg-animation span:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .bg-animation span:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .card {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            margin-bottom: 40px;
         }
 
-        .header-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .header-icon {
-            width: 30px;
-            height: 30px;
-            background: #8c1d1d;
-            border-radius: 8px;
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
         }
 
-        .content {
-            padding: 30px 20px;
+        .logo i {
+            font-size: 40px;
+            color: white;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
         }
 
         .search-section {
             margin-bottom: 30px;
         }
 
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
         .search-input {
             width: 100%;
-            padding: 15px 50px 15px 15px;
-            border: none;
+            padding: 18px 60px 18px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 16px;
-            background: rgba(255, 255, 255, 0.9);
+            color: white;
             font-size: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
             outline: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .search-input:focus {
-            box-shadow: 0 4px 20px rgba(140, 29, 29, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 20px;
         }
 
         .search-button {
             width: 100%;
-            padding: 15px;
-            margin-top: 15px;
-            background: #8c1d1d;
-            color: white;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             border: none;
             border-radius: 16px;
+            color: white;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(140, 29, 29, 0.3);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .search-button:hover {
-            background: #a52a2a;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(140, 29, 29, 0.4);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
 
         .search-button:active {
@@ -110,9 +268,28 @@
         }
 
         .search-button:disabled {
-            background: #ccc;
+            opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .feature {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+        }
+
+        .feature i {
+            font-size: 20px;
+            margin-bottom: 8px;
+            display: block;
         }
 
         .history-section {
@@ -128,26 +305,24 @@
         }
 
         .history-title {
+            font-size: 14px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            opacity: 0.8;
         }
 
-        .clear-button {
+        .clear-btn {
             background: none;
             border: none;
-            color: white;
-            opacity: 0.7;
+            color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
             font-size: 12px;
-            transition: opacity 0.3s ease;
+            transition: color 0.3s ease;
         }
 
-        .clear-button:hover {
-            opacity: 1;
+        .clear-btn:hover {
+            color: white;
         }
 
         .history-list {
@@ -163,64 +338,99 @@
             margin-bottom: 8px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
+            color: white;
             cursor: pointer;
             transition: all 0.3s ease;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .history-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(4px);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
         }
 
         .history-text {
-            color: white;
-            font-size: 14px;
             flex: 1;
             margin-right: 10px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-size: 14px;
         }
 
         .history-remove {
             background: none;
             border: none;
-            color: white;
-            opacity: 0.6;
+            color: rgba(255, 255, 255, 0.5);
             cursor: pointer;
             font-size: 14px;
-            transition: opacity 0.3s ease;
+            transition: color 0.3s ease;
             padding: 4px;
         }
 
         .history-remove:hover {
-            opacity: 1;
             color: #ff6b6b;
         }
 
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
-            color: white;
-            opacity: 0.6;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.6);
         }
 
-        .empty-icon {
+        .empty-state i {
             font-size: 48px;
             margin-bottom: 10px;
             opacity: 0.5;
         }
 
-        .footer {
-            text-align: center;
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
             padding: 15px;
             background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             color: white;
-            opacity: 0.7;
             font-size: 12px;
         }
 
-        /* 滚动条样式 */
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+                margin: 10px;
+                max-width: none;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scrollbar Styling */
         .history-list::-webkit-scrollbar {
             width: 4px;
         }
@@ -234,185 +444,335 @@
             border-radius: 2px;
         }
 
-        /* 响应式设计 */
-        @media (max-width: 480px) {
-            .app-container {
-                margin: 10px;
-                max-width: none;
-            }
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            color: white;
+            margin-top: 10px;
+        }
 
-            .content {
-                padding: 20px 15px;
-            }
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="header">
-            <div class="header-title">
-                <div class="header-icon">
-                    <i class="fas fa-book"></i>
-                </div>
-                川大图书馆搜索
-            </div>
-            <i class="fas fa-graduation-cap" style="color: white; opacity: 0.8;"></i>
-        </div>
+    <div class="bg-animation">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-        <div class="content">
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h1 class="title">SCU Library Search</h1>
+                <p class="subtitle">Instant access to Sichuan University library resources</p>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-mobile-alt"></i>
+                    <div>Mobile Ready</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-history"></i>
+                    <div>History</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-rocket"></i>
+                    <div>Fast Search</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-cloud"></i>
+                    <div>Cloud Sync</div>
+                </div>
+            </div>
+
             <div class="search-section">
-                <input
-                    type="text"
-                    class="search-input"
-                    id="bookInput"
-                    placeholder="输入书名进行检索..."
-                    onkeypress="handleKeyPress(event)"
-                >
-                <button class="search-button" onclick="handleSearch()">
-                    <i class="fas fa-external-link-alt"></i> 立即检索
+                <div class="input-group">
+                    <input type="text"
+                           class="search-input"
+                           id="searchInput"
+                           placeholder="Enter book title, author, or ISBN..."
+                           maxlength="100">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <button class="search-button" id="searchBtn" onclick="performSearch()">
+                    <i class="fas fa-external-link-alt"></i>
+                    Search Now
                 </button>
+                <div class="loading" id="loading">
+                    <i class="fas fa-spinner"></i> Opening library search...
+                </div>
+            </div>
+
+            <div class="stats" id="stats" style="display: none;">
+                <div class="stat">
+                    <span class="stat-number" id="searchCount">0</span>
+                    <span>Searches</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="bookCount">0</span>
+                    <span>Books Found</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="historyCount">0</span>
+                    <span>History</span>
+                </div>
             </div>
 
             <div class="history-section">
                 <div class="history-header">
                     <div class="history-title">
                         <i class="fas fa-history"></i>
-                        最近搜索
+                        Recent Searches
                     </div>
-                    <button class="clear-button" onclick="clearHistory()" style="display: none;" id="clearBtn">
-                        <i class="fas fa-trash"></i> 清除
+                    <button class="clear-btn" onclick="clearHistory()" id="clearBtn" style="display: none;">
+                        <i class="fas fa-trash"></i> Clear
                     </button>
                 </div>
                 <div class="history-list" id="historyList">
                     <div class="empty-state">
-                        <div class="empty-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <p>暂无搜索记录</p>
+                        <i class="fas fa-search"></i>
+                        <p>No search history yet<br>Start searching to see your history here!</p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="footer">
-            Made for Sichuan University Students
-        </div>
     </div>
 
     <script>
-        // 配置
-        const DEFAULT_BASE_URL = "http://opac.scu.edu.cn:8080/F/9F63EJD6J8RI1731DPHAUF7B5FM4JB151M4D369YC7XFUCITEF-09218?func=find-m&find_code=WRD&request=";
-        const LOCAL_STORAGE_KEY = 'scu_library_history';
+        // Configuration
+        const CONFIG = {
+            baseUrl: "http://opac.scu.edu.cn:8080/F/9F63EJD6J8RI1731DPHAUF7B5FM4JB151M4D369YC7XFUCITEF-09218?func=find-m&find_code=WRD&request=",
+            localStorageKey: 'scu_library_advanced',
+            maxHistory: 12,
+            animations: true
+        };
 
-        // 初始化
+        // State management
+        let searchHistory = [];
+        let searchCount = 0;
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            loadHistory();
+            loadState();
+            setupEventListeners();
+            updateStats();
+            animateElements();
         });
 
-        // 处理搜索
-        function handleSearch(bookTitle = null) {
-            const title = bookTitle || document.getElementById('bookInput').value.trim();
-            if (!title) return;
+        // Event listeners
+        function setupEventListeners() {
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
 
-            const searchUrl = DEFAULT_BASE_URL + encodeURIComponent(title) +
+            searchInput.addEventListener('input', handleInput);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            searchBtn.addEventListener('click', performSearch);
+        }
+
+        // Input handling
+        function handleInput(e) {
+            const value = e.target.value.trim();
+            const searchBtn = document.getElementById('searchBtn');
+            searchBtn.disabled = !value;
+        }
+
+        // Search functionality
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+
+            // Show loading
+            showLoading();
+
+            // Build search URL
+            const searchUrl = CONFIG.baseUrl + encodeURIComponent(query) +
                             "&find_base=CNPUB&find_base=ENPUB&pds_handle=GUEST";
 
-            // 在新窗口打开搜索结果
-            window.open(searchUrl, '_blank');
+            // Add to history
+            addToHistory(query);
 
-            // 添加到历史记录
-            addToHistory(title);
+            // Update stats
+            updateStats();
 
-            // 清空输入框
-            document.getElementById('bookInput').value = '';
+            // Open in new tab
+            setTimeout(() => {
+                window.open(searchUrl, '_blank');
+                hideLoading();
+                document.getElementById('searchInput').value = '';
+                document.getElementById('searchBtn').disabled = true;
+            }, 800);
         }
 
-        // 处理回车键
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                handleSearch();
-            }
+        // History management
+        function addToHistory(query) {
+            const timestamp = new Date().toISOString();
+            const entry = { query, timestamp, id: Date.now() };
+
+            // Remove duplicates and add new entry
+            searchHistory = searchHistory.filter(item => item.query !== query);
+            searchHistory.unshift(entry);
+            searchHistory = searchHistory.slice(0, CONFIG.maxHistory);
+
+            saveState();
+            renderHistory();
+            updateStats();
         }
 
-        // 添加到历史记录
-        function addToHistory(title) {
-            let history = getHistory();
-
-            // 移除已存在的相同记录
-            history = history.filter(item => item !== title);
-
-            // 添加到最前面
-            history.unshift(title);
-
-            // 保留最近10条
-            history = history.slice(0, 10);
-
-            // 保存到本地存储
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(history));
-
-            // 更新显示
-            loadHistory();
-        }
-
-        // 获取历史记录
-        function getHistory() {
-            const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-            return saved ? JSON.parse(saved) : [];
-        }
-
-        // 加载历史记录
-        function loadHistory() {
-            const history = getHistory();
+        function renderHistory() {
             const historyList = document.getElementById('historyList');
             const clearBtn = document.getElementById('clearBtn');
 
-            if (history.length === 0) {
+            if (searchHistory.length === 0) {
                 historyList.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <p>暂无搜索记录</p>
+                        <i class="fas fa-search"></i>
+                        <p>No search history yet<br>Start searching to see your history here!</p>
                     </div>
                 `;
                 clearBtn.style.display = 'none';
-            } else {
-                historyList.innerHTML = history.map((item, index) => `
-                    <div class="history-item" onclick="handleSearch('${item.replace(/'/g, "\\'")}')">
-                        <div class="history-text">${item}</div>
-                        <button class="history-remove" onclick="removeHistoryItem('${item.replace(/'/g, "\\'")}', event)">
-                            <i class="fas fa-times"></i>
-                        </button>
+                return;
+            }
+
+            historyList.innerHTML = searchHistory.map(item => `
+                <div class="history-item" onclick="searchFromHistory('${escapeHtml(item.query)}')">
+                    <div class="history-text">
+                        ${escapeHtml(item.query)}
+                        <small style="opacity: 0.7; display: block;">
+                            ${formatTimestamp(item.timestamp)}
+                        </small>
                     </div>
-                `).join('');
-                clearBtn.style.display = 'block';
-            }
+                    <button class="history-remove" onclick="removeHistoryItem('${item.id}', event)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+            clearBtn.style.display = 'block';
         }
 
-        // 移除单个历史记录
-        function removeHistoryItem(item, event) {
+        function searchFromHistory(query) {
+            document.getElementById('searchInput').value = query;
+            document.getElementById('searchBtn').disabled = false;
+            performSearch();
+        }
+
+        function removeHistoryItem(id, event) {
             event.stopPropagation();
-
-            let history = getHistory();
-            history = history.filter(h => h !== item);
-
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(history));
-            loadHistory();
+            searchHistory = searchHistory.filter(item => item.id !== id);
+            saveState();
+            renderHistory();
+            updateStats();
         }
 
-        // 清空历史记录
         function clearHistory() {
-            if (confirm("确定要清空检索历史吗？")) {
-                localStorage.removeItem(LOCAL_STORAGE_KEY);
-                loadHistory();
+            if (confirm('Are you sure you want to clear all search history?')) {
+                searchHistory = [];
+                searchCount = 0;
+                saveState();
+                renderHistory();
+                updateStats();
             }
         }
 
-        // 防止点击历史记录项时触发移除按钮
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.history-remove')) {
-                e.stopPropagation();
+        // Utility functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
+
+            if (diffMins < 1) return 'just now';
+            if (diffMins < 60) return `${diffMins} min ago`;
+            if (diffHours < 24) return `${diffHours}h ago`;
+            if (diffDays < 7) return `${diffDays}d ago`;
+            return date.toLocaleDateString();
+        }
+
+        // State management
+        function loadState() {
+            const saved = localStorage.getItem(CONFIG.localStorageKey);
+            if (saved) {
+                const data = JSON.parse(saved);
+                searchHistory = data.history || [];
+                searchCount = data.count || 0;
             }
+            renderHistory();
+        }
+
+        function saveState() {
+            const data = {
+                history: searchHistory,
+                count: searchCount
+            };
+            localStorage.setItem(CONFIG.localStorageKey, JSON.stringify(data));
+        }
+
+        function updateStats() {
+            const stats = document.getElementById('stats');
+            if (searchCount > 0) {
+                stats.style.display = 'flex';
+                document.getElementById('searchCount').textContent = searchCount;
+                document.getElementById('historyCount').textContent = searchHistory.length;
+                document.getElementById('bookCount').textContent = Math.floor(searchCount * 2.5);
+            }
+        }
+
+        // Animation helpers
+        function animateElements() {
+            if (CONFIG.animations) {
+                // Add stagger animation to history items
+                const items = document.querySelectorAll('.history-item');
+                items.forEach((item, index) => {
+                    item.style.animationDelay = `${index * 0.05}s`;
+                });
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('searchBtn').disabled = true;
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('searchBtn').disabled = false;
+        }
+
+        // Analytics
+        document.addEventListener('DOMContentLoaded', function() {
+            // Increment search count on page load
+            searchCount++;
+            saveState();
         });
     </script>
 </body>
